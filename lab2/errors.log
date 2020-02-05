@@ -1,0 +1,16 @@
+ACPIPlatform.kext: restored flags 0x80000 and storage class 
+ACPIFamily.kext: restored flags 0x80000 and storage class 
+ACPI.kext is not demanded by OSBundleRequired conditions.
+ACPI_SMC_PlatformPlugin.kext is not demanded by OSBundleRequired conditions.
+ACPIFamily.kext to prelinked kernel.
+ACPIPlatform.kext to prelinked kernel.
+ACPIPlatform.kext/Contents/PlugIns/AppleACPIEC.kext to prelinked kernel.
+ACPIPlatform.kext/Contents/PlugIns/AppleACPIButtons.kext to prelinked kernel.
+ACPIPlatform.kext: restored flags 0x80000 and storage class 
+ACPIFamily.kext: restored flags 0x80000 and storage class 
+ACPI.kext is not demanded by OSBundleRequired conditions.
+ACPI_SMC_PlatformPlugin.kext is not demanded by OSBundleRequired conditions.
+ACPIFamily.kext to prelinked kernel.
+ACPIPlatform.kext to prelinked kernel.
+ACPIPlatform.kext/Contents/PlugIns/AppleACPIEC.kext to prelinked kernel.
+ACPIPlatform.kext/Contents/PlugIns/AppleACPIButtons.kext to prelinked kernel.
