@@ -1,10 +1,10 @@
-1. Найти долю продаж каждого продукта (цена продукта * количество продукта), на каждый чек, в денежном выражении
+1
 
 select distinct (OrderQty * UnitPrice) as "Доля продаж"
 from Sales.SalesOrderHeader inner join
 Sales.SalesOrderDetail on SalesOrderHeader.SalesOrderID = SalesOrderDetail.SalesOrderID
 
-2. Найти долю затрат каждого покупателя, на каждый купленный им продукт, среди общих его затрат в данной сети магазинов. Можно использовать обобщенное табличное выражение
+2
 
 SELECT distinct s.CustomerID, LineTotal / SubTotal
 from Sales.Customer s inner join Sales.SalesOrderHeader
@@ -12,7 +12,7 @@ on s.CustomerID = SalesOrderHeader.CustomerID inner join
 Sales.SalesOrderDetail on SalesOrderHeader.SalesOrderID = SalesOrderDetail.SalesOrderID
 order by CustomerID
 
-3. Вывести на экран список продуктов, их стоимость, а так же разницу между стоимостью этого продукта и стоимостью самого дешевого продукта в той же подкатегории, к которой относится продукт
+3.
 
 SELECT Production.Product.Name, Production.Product.ListPrice,   
        (Production.Product.ListPrice - (FIRST_VALUE(p.ListPrice) OVER (ORDER BY p.ListPrice ASC))) AS LeastExpensive   
@@ -20,14 +20,14 @@ FROM Production.Product  inner join Production.Product as p
 on Product.ProductID = p.ProductID
 where Production.Product.ProductSubcategoryID = p.ProductSubcategoryID
 
-4. Для одного выбранного покупателя вывести, для каждой покупки (чека), разницу, в деньгах, между этой и следующей покупкой.
+4.
 
 SELECT Sales.Customer.CustomerID, (SubTotal - LAG(SalesOrderHeader.SubTotal, 1,0) OVER (ORDER BY SubTotal))
 from Sales.Customer inner join
 Sales.SalesOrderHeader on Customer.CustomerID = SalesOrderHeader.CustomerID
 where Sales.SalesOrderHeader.CustomerID = 15640 
 
-5. Вывести следующую информацию: номер покупателя, номер чека этого покупателя отсортированные по покупателям, номерам чека (по возрастанию). Третья колонка должна содержать в каждой своей строке сумму текущего чека покупателя и всем предыдущим чекам этого покупателя.
+5. 
 
 
 select CustomerID , SalesOrderID,
@@ -35,14 +35,14 @@ SUM(TotalDue) OVER(PARTITION BY CustomerID Order by SalesOrderID RANGE BETWEEN U
 from Sales.SalesOrderHeader
 
 
-6. Вывести три колонки: номер покупателя, номер чека покупателя (отсортированный по возрастанию даты чека), и искусственно введенный порядковый номер текущего чека, начиная с 1, для каждого покупателя.
+6. 
 
 SELECT Customer.AccountNumber, SalesOrderNumber, row_number() OVER(partition by Customer.CustomerID ORDER BY Customer.CustomerID)
 from Sales.Customer inner join
 Sales.SalesOrderHeader on Customer.CustomerID = SalesOrderHeader.CustomerID
 inner join Sales.SalesOrderDetail on Sales.SalesOrderHeader.SalesOrderID = SalesOrderDetail.SalesOrderID
 
-7.Вывести номера продуктов, таких что, их цена выше средней цены продукта в подкатегории, которой относится продукт. Запрос реализовать двумя способами. В одном из решений допускается использование обобщенного табличного выражения.
+7.
 
 SELECT ProductNumber = case when  Product.ListPrice > avg(p.ListPrice)over(partition by Product.ProductSubcategoryID) then Product.ProductNumber end
 from Production.Product inner join

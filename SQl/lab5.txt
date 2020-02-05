@@ -1,6 +1,6 @@
 5.1 
 
-Получить упорядоченный по возрастанию список идентификаторов поставщиков, поставляющих товары для горной линейки велосипедов.
+
 
 Select AccountNumber
 from Purchasing.Vendor
@@ -10,7 +10,7 @@ where ProductID IN(Select ProductID from Production.Product where ProductLine = 
 
 5.2
 
-Получить упорядоченный по возрастанию список названий товаров, поставляемых поставщиком с ID.
+
 
 Select Name
 from Production.Product
@@ -21,7 +21,7 @@ order by Name
 
 5.3
 
-Для каждого типа кредитного рейтинга посчитать количество поставщиков, которые находятся в городе ‘New York’.
+
 
 Select COUNT(CreditRating)
 from Purchasing.Vendor
@@ -31,7 +31,7 @@ group by CreditRating
 
 5.4
 
-Получить идентификационные номера товаров и рекламных акций для заказов, сделанных 27 июля 2004 года.
+
 
 select ProductID as Product, SpecialOfferID 
 from Sales.SalesOrderDetail
@@ -41,7 +41,7 @@ where OrderDate = '27-07-2004')
 
 5.5
 
-Получить список идентификационных номеров сотрудников, чье количество дней отпуска по болезни меньше, чем среднее количество дней отпуска по болезни по занимаемой ими должности.
+
 
 Select ContactID
 from HumanResources.Employee first
@@ -50,7 +50,7 @@ where Title = first.Title)
 
 5.6
 
-Вычислить количество продуктов, для которых количества единиц товара в заказе больше среднего количества единиц товара в заказе для рекламной акции с ID = 1
+
 
 Select COUNT(distinct ProductID)
 from Sales.SalesOrderDetail
@@ -60,7 +60,7 @@ SpecialOfferID = 1)
 
 5.7
 
-Получить список городов, в которых есть хотя бы один поставщик с кредитным рейтингом 5.
+
 
 Select distinct City
 from Person.Address
@@ -70,7 +70,7 @@ CreditRating = 5))
 
 5.8
 
-Получить список городов, в которых есть только один поставщик 
+
 
 select City
 from Person.Address
@@ -80,7 +80,7 @@ from Purchasing.VendorAddress where VendorID < ANY
 
 5.9 
 
-Получить данные (идентификационный номер) о поставщиках, поставляющих больше одного продукта для дорожной линейки велосипедов
+
 
 select City
 from Person.Address
@@ -89,7 +89,6 @@ where 1 = '1' and Address.AddressID = VendorAddress.AddressID)
 
 5.10 
 
-Получить список идентификационных номеров покупателей, для которых город в адресе выставления счета не соответствует городу в адресе доставки товара (без использования IN).
 
 select CustomerID
 from Sales.SalesOrderHeader OH
@@ -98,7 +97,7 @@ on A1.AddressID = OH.BillToAddressID and A2.AddressID = OH.ShipToAddressID and A
 
 5.11
 
-Получить данные (идентификационный номер) о заказчиках, для которых средняя стоимость заказа выше стоимости заказа от 27.07.2004
+
 
 select OH1.CustomerID
 from Sales.SalesOrderHeader OH1, Sales.SalesOrderHeader OH2
@@ -107,7 +106,7 @@ where OH2.OrderDate = '27-07-2004' and OH2.CustomerID = OH1.CustomerID and OH2.T
 
 5.12
 
-Найти тех производителей (идентификационный номер) товаров горной линейки, которые не производят товары дорожной линейки
+
 
 select distinct VendorID
 from Purchasing.ProductVendor PV1
@@ -116,7 +115,7 @@ where ProductLine <> 'R' and ProductLine = 'M' and P.ProductID = PV1.ProductID))
 
 5.13
 
-Получить информацию о количестве заказов на суммы больше 150000 для каждого заказчика (идентификационный номер)
+
 
 select CustomerID, count(SalesOrderID)
 from Sales.SalesOrderHeader SH1

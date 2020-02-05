@@ -1,6 +1,5 @@
 6.1
 
- акова длительность исполнени€ заказов дл€ клиента John P. Ault (вывести идентификационные номер заказа, дату формировани€ и дату выполнени€ каждого заказа)
 
 Select SalesOrderNumber, OrderDate, DueDate
 from Sales.SalesOrderHeader
@@ -14,7 +13,7 @@ Where Contact.ContactID = 44
 
 6.2
 
-Ќайти номер заказа, дату формировани€ заказа, идентификационный номер заказчика и номера товаров, дл€ которых действовала рекламна€ акци€ номер 13
+
 
 Select SalesOrderNumber, OrderDate, CustomerID, ProductID
 from Sales.SalesOrderHeader h inner join Sales.SalesOrderDetail d
@@ -23,7 +22,7 @@ where d.SpecialOfferID = 13
 
 6.3
 
- то из сотрудников был прин€т на работу позже, чем David R Campbell (вывести фамилию, им€, должность, дату прин€ти€ на работу)
+ 
 
 Select FirstName, LastName, h.Title, HireDate
 from Person.Contact c inner join
@@ -33,7 +32,6 @@ where h.HireDate > '2001-07-01'
 
 6.4 
 
-Ќайти всех покупателей и сотрудников, наход€щихс€ в городе Bellevue (вывести идентификационные номера)
 
 Select EmployeeID as 'ID'
 from HumanResources.EmployeeAddress 
@@ -54,13 +52,5 @@ Select VendorID
 from Purchasing.VendorAddress  inner join
 Person.Address on Purchasing.VendorAddress.AddressID = Person.Address.AddressID
 where City = 'Bellevue'
-
-6.5
-
-Ќайти данные сотрудников Ц торговых представителей (указать фамилию, им€, отчество), работающих на территории  анады (Canada)
-
-6.6
-
-¬ывести список сотрудников (идентификационные номера), планы продаж которых превышают планы продаж их руководителей
 
 

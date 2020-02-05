@@ -1,5 +1,5 @@
 4.1
-Вывести фамилии, имена, должности и номера телефонов работников, для которых есть сведения о номере телефона.
+
 
 select Person.Contact.FirstName, Person.Contact.MiddleName, Person.Contact.LastName, HumanResources.Employee.Title, Person.Contact.Phone
 from Person.Contact inner join HumanResources.Employee
@@ -7,7 +7,7 @@ on Person.Contact.ContactID = HumanResources.Employee.ContactID
 
 4.2
 
-Посчитать количество работников, для которых есть сведения об адресе электронной почты.
+
 
 select count(HumanResources.Employee.Title)
 from Person.Contact inner join HumanResources.Employee
@@ -15,7 +15,7 @@ on Person.Contact.ContactID = HumanResources.Employee.ContactID
 
 4.3
 
-Вывести список контактных лиц поставщиков запчастей и других товаров (Фамилия, Имя, Адрес электронной почты), отсортированный по названиям компаний-поставщиков.
+
 
 select Person.Contact.FirstName, Person.Contact.LastName, Person.Contact.EmailAddress
 from Person.Contact inner join Purchasing.VendorContact
@@ -25,7 +25,7 @@ order by Purchasing.Vendor.Name
 
 4.4
 
-Составить запрос, выводящий имена, фамилии и должности тех работников компании, которые также являются представителями компаний-поставщиков деталей и других товаров.
+
 
 select  FirstName, LastName, HumanResources.Employee.Title
 from Person.Contact 
@@ -36,7 +36,7 @@ on Contact.ContactID = Employee.ContactID
 
 4.5
 
-Получить отсортированный по алфавиту список (фамилия, имя, телефон) представителей поставщиков деталей и других товаров, использующихся в горной линейке велосипедов. 
+
 
 select LastName, FirstName, Phone
 from Purchasing.ProductVendor
@@ -51,7 +51,7 @@ order by LastName, FirstName
 
 4.6
 
-Получить список названий товаров туристической линейки. Для тех из них, которые закупаются у сторонних поставщиков, указать названия компаний-поставщиков.
+
 
 select Product.Name, Vendor.Name 
 from Production.Product left outer join Purchasing.ProductVendor 
@@ -62,7 +62,7 @@ where ProductLine = 'T'
 
 4.7
 
-Определить среднюю стандартную стоимость для классов продукции, закупаемой у сторонних поставщиков. Не учитывать товары, для которых класс не указан.
+
 
 select Class, avg(StandardCost)
 from Production.Product
@@ -75,7 +75,7 @@ group by Class
 
 4.8
 
-Получить перечень названий продуктов, вошедших в заказы на продажу, созданные 1 февраля 2004 года.
+
 
 select Product.Name, SalesOrderHeader.OrderDate
 from Production.Product
@@ -87,7 +87,7 @@ where OrderDate = '2004-01-02'
 
 4.9
 
-Получить общее количество проданных единиц каждого товара по каждому наименованию за всю историю продаж
+
 
 select Product.Name, count(Product.Name)
 from Production.Product
@@ -100,8 +100,6 @@ on SalesOrderDetail.SalesOrderID = SalesOrderHeader.SalesOrderID
 group by Product.Name
 
 4.10
-
-Получить контактную информацию клиентов (имя, фамилия, телефон), чьи заказы в настоящий момент находятся в стадии выполнения.
 
 select Person.Contact.FirstName, Person.Contact.LastName, Person.Contact.Phone
 from Person.Contact inner join Sales.SalesOrderHeader
