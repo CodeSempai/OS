@@ -1,0 +1,126 @@
+5.1 
+
+Получить упорядоченный по возрастанию список идентификаторов поставщиков, поставляющих товары для горной линейки велосипедов.
+
+Select AccountNumber
+from Purchasing.Vendor
+where VendorID IN
+(Select VendorID from Purchasing.ProductVendor 
+where ProductID IN(Select ProductID from Production.Product where ProductLine = 'M'))
+
+5.2
+
+Получить упорядоченный по возрастанию список названий товаров, поставляемых поставщиком с ID.
+
+Select Name
+from Production.Product
+where ProductID in (select ProductID
+from Purchasing.ProductVendor)
+order by Name
+
+
+5.3
+
+Для каждого типа кредитного рейтинга посчитать количество поставщиков, которые находятся в городе ‘New York’.
+
+Select COUNT(CreditRating)
+from Purchasing.Vendor
+where VendorID IN(Select VendorID from Purchasing.VendorAddress where 
+VendorID IN(Select VendorID from Person.Address where City = 'New York'))
+group by CreditRating
+
+5.4
+
+Получить идентификационные номера товаров и рекламных акций для заказов, сделанных 27 июля 2004 года.
+
+select ProductID as Product, SpecialOfferID 
+from Sales.SalesOrderDetail
+where SalesOrderID in
+(select SalesOrderID from Sales.SalesOrderHeader
+where OrderDate = '27-07-2004')
+
+5.5
+
+Получить список идентификационных номеров сотрудников, чье количество дней отпуска по болезни меньше, чем среднее количество дней отпуска по болезни по занимаемой ими должности.
+
+Select ContactID
+from HumanResources.Employee first
+where SickLeaveHours < ALL(Select AVG(SickLeaveHours)from HumanResources.Employee
+where Title = first.Title)
+
+5.6
+
+Вычислить количество продуктов, для которых количества единиц товара в заказе больше среднего количества единиц товара в заказе для рекламной акции с ID = 1
+
+Select COUNT(distinct ProductID)
+from Sales.SalesOrderDetail
+where OrderQty > ALL(Select AVG(OrderQty) from Sales.SalesOrderDetail where
+SpecialOfferID = 1)
+
+
+5.7
+
+Получить список городов, в которых есть хотя бы один поставщик с кредитным рейтингом 5.
+
+Select distinct City
+from Person.Address
+where AddressID IN(Select AddressID from Purchasing.VendorAddress where
+VendorID IN(Select VendorID from Purchasing.Vendor where
+CreditRating = 5))
+
+5.8
+
+Получить список городов, в которых есть только один поставщик 
+
+select City
+from Person.Address
+where AddressID IN (select AddressID
+from Purchasing.VendorAddress where VendorID < ANY
+(select VendorID from Purchasing.Vendor))
+
+5.9 
+
+Получить данные (идентификационный номер) о поставщиках, поставляющих больше одного продукта для дорожной линейки велосипедов
+
+select City
+from Person.Address
+where exists (select count(distinct VendorID) from Purchasing.VendorAddress
+where 1 = '1' and Address.AddressID = VendorAddress.AddressID)
+
+5.10 
+
+Получить список идентификационных номеров покупателей, для которых город в адресе выставления счета не соответствует городу в адресе доставки товара (без использования IN).
+
+select CustomerID
+from Sales.SalesOrderHeader OH
+where exists (select * from Person.Address A1 join Person.Address A2
+on A1.AddressID = OH.BillToAddressID and A2.AddressID = OH.ShipToAddressID and A1.City <> A2.City)
+
+5.11
+
+Получить данные (идентификационный номер) о заказчиках, для которых средняя стоимость заказа выше стоимости заказа от 27.07.2004
+
+select OH1.CustomerID
+from Sales.SalesOrderHeader OH1, Sales.SalesOrderHeader OH2
+where OH2.OrderDate = '27-07-2004' and OH2.CustomerID = OH1.CustomerID and OH2.TotalDue < any
+(select AVG(TotalDue) from Sales.SalesOrderHeader OH3 where OH1.SalesOrderID = OH3.SalesOrderID)
+
+5.12
+
+Найти тех производителей (идентификационный номер) товаров горной линейки, которые не производят товары дорожной линейки
+
+select distinct VendorID
+from Purchasing.ProductVendor PV1
+where exists (select * from Production.Product P 
+where ProductLine <> 'R' and ProductLine = 'M' and P.ProductID = PV1.ProductID))
+
+5.13
+
+Получить информацию о количестве заказов на суммы больше 150000 для каждого заказчика (идентификационный номер)
+
+select CustomerID, count(SalesOrderID)
+from Sales.SalesOrderHeader SH1
+where CustomerID IN (select distinct CustomerID from Sales.SalesOrderHeader SH2
+where SH2.TotalDue > 150000)
+group by CustomerID
+

@@ -1,0 +1,179 @@
+3.1 
+Получить список продуктов (название, цена), предназначенных для женщин, отсортированный по цене.
+
+SELECT Name, ListPrice
+from Production.Product
+where Style = 'W'
+order by ListPrice
+
+3.2 
+Получить отсортированный список названий продуктов, закупаемых у сторонних поставщиков.
+
+SELECT Name
+from Production.Product
+where MakeFlag = '0'
+order by Name
+
+3.3 
+Получить упорядоченный по алфавиту список лиц (имя, фамилия, отчество), получающих рекламную рассылку. 
+
+SELECT FirstName, MiddleName, LastName
+from Person.Person
+where EmailPromotion = '1'
+order by FirstName, MiddleName, LastName
+
+3.4 
+Получить список в обратном порядке названий поставщиков, имеющих отличный кредитный рейтинг
+
+SELECT Name
+from Purchasing.Vendor
+where CreditRating = '2'
+order by Name DESC
+
+3.5 
+Получить список продуктов (название, цвет), изготовленных в компании, упорядоченный по цвету, за исключением товаров, для которых цвет не указан.
+
+SELECT Name, Color
+from Production.Product
+where MakeFlag = '1' AND COLOR != 'NULL'
+order by Color
+
+3.6 
+Предоставить данные о среднем количестве дней на изготовление продуктов для каждой линейки товаров (дорожный, горный и т.д.).
+
+SELECT ProductLine , AVG(DaysToManufacture)
+from Production.Product
+where ProductLine != 'NULL'
+group by ProductLine
+
+3.7 
+Указать среднюю цену закупаемых товаров.
+
+SELECT AVG(ListPrice)
+from Production.Product
+where MakeFlag = '0'
+
+3.8 
+Посчитать количество активно использующихся компаний-поставщиков по каждому типу кредитного рейтинга. Указать тип рейтинга и количество поставщиков для него. 
+
+SELECT CreditRating, COUNT(Name)
+from Purchasing.Vendor
+where ActiveFlag = '1'
+group by CreditRating
+
+
+3.9 
+Отсортировать список товаров по суммарному количеству проданных единиц (название товара, число проданных экземпляров).
+
+select Name, sum(SafetyStockLevel+ReorderPoint)
+from Production.Product
+group by Name
+order by 2
+
+
+3.10 
+Получить данные о количестве сотрудников-женщин, состоящих в браке.
+
+SELECT COUNT(Gender)
+from HumanResources.Employee
+where Gender = 'F' and MaritalStatus = 'M'
+
+3.11 
+Определить суммарную продолжительность отпусков по болезни для женщин и для мужчин.
+
+SELECT Gender, SUM(SickLeaveHours)
+from HumanResources.Employee
+group by Gender
+
+3.12 
+Для каждого типа обращения к человеку посчитать число лиц его выбравших. Отсортировать список по величине получившихся групп.
+
+SELECT Title, COUNT(Title)
+from Person.Person
+where Title != 'NULL'
+group by Title
+order by COUNT(Title) DESC
+
+3.13 
+Указать среднее значение минимального количества складских запасов для покупного и изготовленного в компании товаров.
+
+SELECT MakeFlag, AVG(SafetyStockLevel)
+from Production.Product
+group by MakeFlag
+
+3.14 
+Отсортировать производимые в компании продукты по продолжительности времени их изготовления. 
+
+SELECT Name, DaysToManufacture
+from Production.Product
+where MakeFlag = '1'
+order by DaysToManufacture 
+
+3.15 
+Указать среднюю стоимость товаров, предназначенных для мужчин и предназначенных для женщин. (Проверить)
+
+SELECT Style, AVG(ListPrice)
+from Production.Product
+where Style = 'M' OR Style = 'W'
+group by Style
+
+3.16 
+Для каждого типа кредитного рейтинга определить количество активно использующихся поставщиков и количество не использующихся поставщиков.
+
+SELECT CreditRating, ActiveFlag, COUNT(VendorID) 
+FROM Purchasing.Vendor 
+GROUP BY CreditRating, ActiveFlag 
+ORDER BY CreditRating
+
+3.17 
+Определить минимальную отпускную цену за единицу продукции для каждого кода рекламной акции, за исключением рекламной акции с кодом «1» и «8». Отсортировать по коду рекламной акции.
+
+SELECT SpecialOfferID, MIN(UnitPrice)
+from Sales.SalesOrderDetail
+group by SpecialOfferID
+having SpecialOfferID ! = 1 AND SpecialOfferID ! = 8 
+order by SpecialOfferID
+
+3.18 
+Для каждого типа обращения к женщине получить количество лиц, выбравших его.
+
+select Title, count(Title)
+from Person.Person
+group by Title
+having Title = 'Mrs.' or Title = 'Ms.' or Title = 'Ms'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
